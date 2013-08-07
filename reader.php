@@ -35,24 +35,12 @@ $metadata = $epub->getMetaPairs();
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">CALI Reader</a>
+          <a class="navbar-brand" href="http://reader.cali.org/">CALI Reader</a>
           <div class="nav-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li class="divider"></li>
-                  <li class="nav-header">Nav header</li>
-                  <li><a href="#">Separated link</a></li>
-                  <li><a href="#">One more separated link</a></li>
-                </ul>
-              </li>
+              <li class="active"><a href="http://reader.cali.org/">Home</a></li>
+              <li><a href="http://e;angdell.cali.org/">eLangdell</a></li>
+              <li><a href="http://www.cali.org/">CALI</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -68,6 +56,7 @@ echo "</div>";
 ?>
     <div class="row">
       <div id="toc" class="col-lg-4">
+        <h4>Table of Contents</h4>
 <?php
 $toc = $epub->getNavPoints();
 
@@ -108,13 +97,28 @@ foreach($toc as $tocentry){
 echo "</ul>";
 ?>
       </div>
-      <div id="bookpage" class="col-lg-8">8</div>
+      <div id="bookpage" class="col-lg-8">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <h3 class="panel-title">Thank you for preveiwing this eLangdell title!</h3>
+            </div>
+            <p class="text-warning">This is the CALI Reader and it is brand new and not completely
+            finished yet. You will find that some things don't work as expected or are missing
+            altogether. </p>
+            <p class="text-warning">The primary feature of the CALI Reader right now is that it lets
+            you read eLangdell EPUB files without having to download them to your PC or mobile device.
+            This allows faculty and others to preview eLangdell titles more easily.</p>
+            <p class="text-warning">To get started, click a chapter link on the left.</p>
+        </div>
+      </div>
       </div>  
     </div>
     </div>
        <div id="footer">
       <div class="container">
-        <p class="text-muted credit"><a href="http://www.cali.org">CALI</a></p>
+        <p class="text-muted credit"><a href="http://www.cali.org"><img alt="" src="http://www.cali.org/sites/default/files/CALI_Logo_White-footer.png" /></a>
+            <a href="http://www.cali.org"> The Center for Computer-Assisted Legal Instruction</a>
+            All Contents Copyright The Center for Computer-Assisted Legal Instruction</p>
       </div>
     </div>
 
