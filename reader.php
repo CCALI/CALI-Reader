@@ -61,14 +61,14 @@ $metadata = $epub->getMetaPairs();
 
 <?php
 echo "<div class='page-header'>";
-
 echo "<h1>".$metadata['dc:title']."</h1>";
 echo "<h3>".$metadata['dc:creator']."</h3>";
 echo "<h4>".$metadata['dc:publisher']."</h4>";
-
-
 echo "</div>";
-
+?>
+    <div class="row">
+      <div id="toc" class="col-lg-4">
+<?php
 $toc = $epub->getNavPoints();
 
 
@@ -77,7 +77,7 @@ foreach($toc as $tocentry){
     $item= $tocentry['src'];
     $relpath = substr($epub->getPackagePath(), 8);
     $url = $relpath."/OEBPS/".$item;
-    echo "<li><a href='".$url."' target ='_blank'>".$tocentry['label']."</a></li>";
+    echo "<li><a href='".$url."' class='chapter'>".$tocentry['label']."</a></li>";
     
     if(count($tocentry['navPoints']) > 0){
         $sub = $tocentry['navPoints'];
@@ -85,7 +85,7 @@ foreach($toc as $tocentry){
         $item= $subentry['src'];
         $relpath = substr($epub->getPackagePath(), 8);
         $url = $relpath."/OEBPS/".$item;
-    echo "<li><a href='".$url."' target ='_blank'>".$subentry['label']."</a></li>";
+    echo "<li><a href='".$url."' class='chapter'>".$subentry['label']."</a></li>";
 	
 	// trying for subs
 		if(count($subentry['navPoints']) > 0){
@@ -95,7 +95,7 @@ foreach($toc as $tocentry){
 			$item= $subsubentry['src'];
 			$relpath = substr($epub->getPackagePath(), 8);
 			$url = $relpath."/OEBPS/".$item;
-                        echo "<li><a href='".$url."' target ='_blank'>".$subsubentry['label']."</a></li>";
+                        echo "<li><a href='".$url."' class='chapter'>".$subsubentry['label']."</a></li>";
 			
 			}
                           echo "</ul>";
@@ -108,6 +108,9 @@ foreach($toc as $tocentry){
 echo "</ul>";
 ?>
       </div>
+      <div id="bookpage" class="col-lg-8">8</div>
+      </div>  
+    </div>
     </div>
        <div id="footer">
       <div class="container">
@@ -118,6 +121,15 @@ echo "</ul>";
 
     <!-- JavaScript plugins (requires jQuery) -->
     <script src="http://code.jquery.com/jquery.js"></script>
+    
+    <script type="application/x-javascript">
+    $("#toc").on("click", "a", function (e) {
+    $("#bookpage").load($(this).attr("href"));
+    e.preventDefault();
+    });
+    
+    </script>
+    
     <!-- Latest compiled and minified JavaScript -->
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/js/bootstrap.min.js"></script>
 
