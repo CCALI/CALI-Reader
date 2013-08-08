@@ -37,6 +37,17 @@
         <div class="page-header">
           <h1>Welcome to CALI Reader</h1>
         </div>
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <h3 class="panel-title">Thank you for preveiwing the CALI Reader!</h3>
+            </div>
+            <p class="text-warning">This is the CALI Reader and it is brand new and not completely
+            finished yet. You will find that some things don't work as expected or are missing
+            altogether. </p>
+            <p class="text-warning">The primary feature of the CALI Reader right now is that it lets
+            you read eLangdell EPUB files without having to download them to your PC or mobile device.
+            This allows faculty and others to preview eLangdell titles more easily.</p>
+        </div>
         <p class="lead">Select a CALI eLangdell title below and read the book online.</p>
         <p>
             <ul>
