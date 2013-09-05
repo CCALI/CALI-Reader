@@ -22,28 +22,31 @@ $metadata = $epub->getMetaPairs();
     <meta name="author" content="">
     <!-- Bootstrap -->
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
     <link href="css/sticky-footer-navbar.css" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src='lib/annotator-full.min.js'></script>
+    <link rel='stylesheet' href='lib/annotator.min.css'>
   </head>
   <body>
     <div id="wrap">
-          <!-- Fixed navbar -->
-      <div class="navbar navbar-fixed-top">
-        <div class="container">
+    <!-- Fixed navbar -->
+      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="http://reader.cali.org/">CALI Reader</a>
-          <div class="nav-collapse collapse">
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
               <li class="active"><a href="http://reader.cali.org/">Home</a></li>
               <li><a href="http://e;angdell.cali.org/">eLangdell</a></li>
               <li><a href="http://www.cali.org/">CALI</a></li>
             </ul>
-          </div><!--/.nav-collapse -->
-        </div>
+        </div><!--/.nav-collapse --> 
       </div>
       <div class="container">
 
@@ -100,7 +103,7 @@ echo "</ul>";
       <div id="bookpage" class="col-lg-8">
         <div class="panel panel-warning">
             <div class="panel-heading">
-                <h3 class="panel-title">Thank you for preveiwing this eLangdell title!</h3>
+                <h3 class="panel-title">Thank you for previewing this eLangdell title!</h3>
             </div>
             <p class="text-warning">This is the CALI Reader and it is brand new and not completely
             finished yet. You will find that some things don't work as expected or are missing
@@ -124,7 +127,7 @@ echo "</ul>";
 
 
     <!-- JavaScript plugins (requires jQuery) -->
-    <script src="http://code.jquery.com/jquery.js"></script>
+    
     
     <script type="application/x-javascript">
     $("#toc").on("click", "a", function (e) {
@@ -135,8 +138,21 @@ echo "</ul>";
     </script>
     
     <!-- Latest compiled and minified JavaScript -->
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/js/bootstrap.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    
+    <script>
+        $(document.body).annotator()
+                        .annotator('addPlugin', 'Store', {
+                                prefix: '/projects/annotator-php'
+                                })
+                        .annotator('addPlugin', 'Permissions', {
+                                user: 'Elmer'
+                                })
+                        .annotator('addPlugin', 'Unsupported')
+                        .annotator('addPlugin', 'Tags');
 
+    </script>
+    
     
   </body>
 </html>
