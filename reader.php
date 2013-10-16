@@ -1,15 +1,18 @@
  
 <?php
+require("config.php");
+session_start();
+require("lib/login.inc");
 require_once('./lib/BookGluttonEpub.php');
 require_once('./lib/BookGluttonZipEpub.php');
 
-$book_root = '/var/www/reader/library/';
+$book_root = '/var/www/reader/books/';
 $file = $book_root.$_GET['epub'];
 
 $epub = new BookGluttonEpub();
 $epub->setLogVerbose(true);
 $epub->setLogLevel(2);
-$epub->open($file);
+$epub->openLocal($file);
 
 $metadata = $epub->getMetaPairs();
 ?>
@@ -43,9 +46,29 @@ $metadata = $epub->getMetaPairs();
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
               <li class="active"><a href="http://reader.cali.org/">Home</a></li>
-              <li><a href="http://e;angdell.cali.org/">eLangdell</a></li>
+              <li><a href="http://elangdell.cali.org/">eLangdell</a></li>
               <li><a href="http://www.cali.org/">CALI</a></li>
             </ul>
+          <?php if (!$_SESSION['user']['id']) : ?>
+          <ul class="nav navbar-nav navbar-right">
+          <li><a href="register.php">Register</a></li>
+          </ul>
+          <form class="navbar-form navbar-right" method="post" action="#">
+            <div class="form-group">
+              <input type="text" placeholder="Username" class="form-control" name="username">
+            </div>
+            <div class="form-group">
+              <input type="password" placeholder="Password" class="form-control" name="password">
+            </div>
+            <button type="submit" class="btn btn-success">Sign in</button>
+          </form>
+          <?php endif; ?>
+          <?php if ($_SESSION['user']['id']) : ?>
+          <ul class="nav navbar-nav navbar-right">
+          <li class="username">Hello <?php echo $_SESSION['user']['username'] ?>.</li>  
+          <li><a href="logout.php">Logout</a></li>
+          </ul>
+          <?php endif; ?>
         </div><!--/.nav-collapse --> 
       </div>
       <div class="container">
@@ -59,17 +82,19 @@ echo "</div>";
 ?>
     <div class="row">
       <div id="toc" class="col-lg-4">
-        <h4>Table of Contents</h4>
+        
 <?php
 $toc = $epub->getNavPoints();
 
 
-echo "<ul>";
+echo "<ul class='nav nav-pill nav-stacked'>";
+
 foreach($toc as $tocentry){
     $item= $tocentry['src'];
     $relpath = substr($epub->getPackagePath(), 8);
     $url = $relpath."/OEBPS/".$item;
-    echo "<li><a href='".$url."' class='chapter'>".$tocentry['label']."</a></li>";
+    echo "<li class='nav-header'>Table of Contents</li>";
+    echo "<li><a href='".$url."'>".$tocentry['label']."</a></li>";
     
     if(count($tocentry['navPoints']) > 0){
         $sub = $tocentry['navPoints'];
@@ -77,28 +102,30 @@ foreach($toc as $tocentry){
         $item= $subentry['src'];
         $relpath = substr($epub->getPackagePath(), 8);
         $url = $relpath."/OEBPS/".$item;
-    echo "<li><a href='".$url."' class='chapter'>".$subentry['label']."</a></li>";
+    echo "<li class=' '><a href='".$url."'>".$subentry['label']."</a>";
 	
 	// trying for subs
 		if(count($subentry['navPoints']) > 0){
 			$sub = $subentry['navPoints'];
-                        echo "<ul>";
+                        echo "<ul class='nav nav-pill nav-stacked'>";
 			foreach($sub as $subsubentry){
 			$item= $subsubentry['src'];
 			$relpath = substr($epub->getPackagePath(), 8);
 			$url = $relpath."/OEBPS/".$item;
-                        echo "<li><a href='".$url."' class='chapter'>".$subsubentry['label']."</a></li>";
+                        echo "<li class=' '><a href='".$url."'>".$subsubentry['label']."</a></li>";
 			
 			}
                           echo "</ul>";
 		     }
 	// end
 	
-          } 
+          }
+          echo "</li>";
      }       
 }
 echo "</ul>";
 ?>
+        
       </div>
       <div id="bookpage" class="col-lg-8">
         <div class="panel panel-warning">
@@ -117,14 +144,14 @@ echo "</ul>";
       </div>  
     </div>
     </div>
-       <div id="footer">
-      <div class="container">
-        <p class="text-muted credit"><a href="http://www.cali.org"><img alt="" src="http://www.cali.org/sites/default/files/CALI_Logo_White-footer.png" /></a>
-            <a href="http://www.cali.org"> The Center for Computer-Assisted Legal Instruction</a>
-            All Contents Copyright The Center for Computer-Assisted Legal Instruction</p>
-      </div>
-    </div>
-
+        <div id="footer" class="rd-footer">
+            <div class="container">
+                <p class="text-muted credit"><a href="http://www.cali.org"><img alt="" src="http://www.cali.org/sites/default/files/CALI_Logo_White-footer.png" /></a>
+                <a href="http://www.cali.org"> The Center for Computer-Assisted Legal Instruction</a>
+                All Contents Copyright The Center for Computer-Assisted Legal Instruction</p>
+      
+            </div>
+        </div>
 
     <!-- JavaScript plugins (requires jQuery) -->
     
@@ -134,11 +161,11 @@ echo "</ul>";
     $("#bookpage").load($(this).attr("href"));
     e.preventDefault();
     });
-    
     </script>
     
     <!-- Latest compiled and minified JavaScript -->
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    
     
     <script>
         $(document.body).annotator()
@@ -146,7 +173,7 @@ echo "</ul>";
                                 prefix: '/projects/annotator-php'
                                 })
                         .annotator('addPlugin', 'Permissions', {
-                                user: 'Elmer'
+                                user: '<?php echo $_SESSION['user']['username']; ?>'
                                 })
                         .annotator('addPlugin', 'Unsupported')
                         .annotator('addPlugin', 'Tags');

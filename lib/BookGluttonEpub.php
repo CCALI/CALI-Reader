@@ -239,6 +239,22 @@ END
   }
   //_makeEpubTmp()
 
+  /**
+   * openLocal($dir) opens locally stored
+   * and extracted epub structures as if they
+   * are EPUBs. May be better than tracking
+   * lots of temp dirs.
+   */
+  public function openLocal($bookpath)
+  {
+    $this->packagepath = $bookpath;
+    $this->mimetypepath = $this->packagepath . '/mimetype'; // filename of mimetype file
+    $this->metapath = $this->packagepath . '/META-INF';
+    $this->opspath = $this->packagepath;
+
+    $this->loadOPS($this->packagepath);
+    
+  }
   public function openRemote($href)
   {
     $tmpfile = DiskUtil::getTempDir().'/epubimport'.time().'.epub';

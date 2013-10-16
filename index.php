@@ -1,3 +1,8 @@
+<?php 
+    require("config.php");
+    session_start();
+    require("lib/login.inc")
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -26,9 +31,29 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
               <li class="active"><a href="http://reader.cali.org/">Home</a></li>
-              <li><a href="http://e;angdell.cali.org/">eLangdell</a></li>
+              <li><a href="http://elangdell.cali.org/">eLangdell</a></li>
               <li><a href="http://www.cali.org/">CALI</a></li>
             </ul>
+          <?php if (!$_SESSION['user']['id']) : ?>
+          <ul class="nav navbar-nav navbar-right">
+          <li><a href="register.php">Register</a></li>
+          </ul>
+          <form class="navbar-form navbar-right" method="post" action="#">
+            <div class="form-group">
+              <input type="text" placeholder="Username" class="form-control" name="username">
+            </div>
+            <div class="form-group">
+              <input type="password" placeholder="Password" class="form-control" name="password">
+            </div>
+            <button type="submit" class="btn btn-success">Sign in</button>
+          </form>
+          <?php endif; ?>
+          <?php if ($_SESSION['user']['id']) : ?>
+          <ul class="nav navbar-nav navbar-right">
+          <li class="username">Hello <?php echo $_SESSION['user']['username'] ?>.</li>  
+          <li><a href="logout.php">Logout</a></li>
+          </ul>
+          <?php endif; ?>
         </div><!--/.nav-collapse --> 
       </div>
 
@@ -51,8 +76,8 @@
         <p class="lead">Select a CALI eLangdell title below and read the book online.</p>
         <p>
             <ul>
-                <li><a href="reader.php?epub=EthicsofTaxLawyering07292013.epub">The Ethics of Tax Lawyering, Second Edition</a></li>
-                <li><a href="reader.php?epub=Property1Turner07292013.epub">Property Volume 1</a></li>
+                <li><a href="reader.php?epub=EthicsofTaxLawyering07292013">The Ethics of Tax Lawyering, Second Edition</a></li>
+                <li><a href="reader.php?epub=Property1Turner07292013">Property Volume 1</a></li>
             </ul>
         </p>
       </div>
